@@ -1,0 +1,3 @@
+# Make sure you put here the hosts you want to provision
+[all]
+11.22.33.44

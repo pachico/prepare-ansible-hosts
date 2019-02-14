@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+  gather_facts: False
+  become: yes
+
+  tasks:
+    - name: Update Packages
+      raw: (apt-get update && apt-get -y upgrade)
+
+    - name: Install Python 2
+      raw: test -e /usr/bin/python || (apt-get update && apt-get install -y python)
+
+    - name: Set authorized_keys
+      authorized_key: user=root
+                      exclusive=no
+                      key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    
+    - name: Set environment
+      blockinfile:
+        dest: /etc/environment
+        block: |
+          LC_ALL=en_US.UTF-8
+          LANG=en_US.UTF-8
+      register: newenv
+    
+    - block:
+      - name: Generate locales
+        raw: locale-gen en_US.UTF-8
+
+      - name: Reconfigure locales
+        raw: update-locale LANG=en_US.UTF-8
+        when: newenv.changed
