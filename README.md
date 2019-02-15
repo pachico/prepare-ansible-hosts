@@ -21,4 +21,4 @@ ansible-playbook ./playbook.yml -i inventory --ask-pass -u ubuntu --ask-become-p
 
 ## Credits
 
-Thanks to (Dave Cohen)[https://github.com/groovemonkey] for his course and ideas!
+Thanks to [Dave Cohen](https://github.com/groovemonkey) for his course and ideas!
